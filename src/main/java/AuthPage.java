@@ -1,5 +1,5 @@
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,7 +28,7 @@ public class AuthPage {
 
     }
 
-    //Успешная регистрация пользователя
+    @Step("Успешная регистрация пользователя")
     public void register(String email, String password, String name) {
         driver.findElement(inputName).sendKeys(name);
         driver.findElement(inputEmail).sendKeys(email);
@@ -36,22 +36,16 @@ public class AuthPage {
         driver.findElement(buttonRegister).click();
     }
 
-    //Успешный вход в аккаунт
+    @Step("Успешный вход в аккаунт")
     public void loginUser(String email, String password) {
-        //   driver.findElement(emailInput).click();
-
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(emailInput)).sendKeys(email);
-        //  driver.findElement(emailInput).sendKeys(email);
-
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.elementToBeClickable(passwordInput)).sendKeys(password);
-        // driver.findElement(passwordInput).click();
-        // driver.findElement(passwordInput).sendKeys(password);
         driver.findElement(buttonLogin).click();
     }
 
-    //Ожидание появления текста ошибки пароля
+    @Step("Ожидание появления текста ошибки пароля")
     public boolean isPasswordErrorVisible() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         try {
@@ -61,14 +55,14 @@ public class AuthPage {
             return false;
         }
     }
-
+    @Step("Проверка появления  на странице заголовка «Вход»")
     public boolean isLoginTitleDisplayed() {
         try {
             return new WebDriverWait(driver, Duration.ofSeconds(5))
                     .until(ExpectedConditions.visibilityOfElementLocated(loginTitle))
                     .isDisplayed();
         } catch (Exception e) {
-            // Если элемент не появился, не упадет с ошибкой, а просто вернет false
+
             return false;
         }
     }
